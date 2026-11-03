@@ -1,56 +1,46 @@
-# C++ objects and libs
-*.slo
-*.lo
-*.o
-*.a
-*.la
-*.lai
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
 *.so
-*.so.*
-*.dll
-*.dylib
-
-# Qt-es
-object_script.*.Release
-object_script.*.Debug
-*_plugin_import.cpp
-/.qmake.cache
-/.qmake.stash
-*.pro.user
-*.pro.user.*
-*.qbs.user
-*.qbs.user.*
-*.moc
-moc_*.cpp
-moc_*.h
-qrc_*.cpp
-ui_*.h
-*.qmlc
-*.jsc
-Makefile*
-*build-*
+.Python
 build/
-*.qm
-*.prl
-*.qmlls.ini
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Qt unit tests
-target_wrapper.*
+# Virtual Environment
+venv/
+env/
+ENV/
 
-# QtCreator
-*.autosave
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-# QtCreator Qml
-*.qmlproject.user
-*.qmlproject.user.*
+# OS
+.DS_Store
+Thumbs.db
 
-# QtCreator CMake
-CMakeLists.txt.user*
+# PyQt
+*.ui
 
-# QtCreator 4.8< compilation database
-compile_commands.json
+# Logs
+*.log
 
-# QtCreator local machine specific files for imported projects
-*creator.user*
-
-*_qmlcache.qrc
+# User-specific
+*.user

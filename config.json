@@ -1,0 +1,32 @@
+{
+  "games": {
+    "WRC 10": {
+      "executable": "",
+      "description": "Путь к WRC10.exe"
+    },
+    "WRC 9": {
+      "executable": "",
+      "description": "Путь к WRC9.exe"
+    },
+    "Forza Horizon 6": {
+      "executable": "D:/SteamLibrary/steamapps/common/ForzaHorizon6/forzahorizon6.exe",
+      "description": "Путь к Forza.exe"
+    },
+    "Dead Island 2": {
+      "executable": "D:/Dead Island 2/DeadIsland.exe",
+      "description": "Путь к DeadIsland2.exe"
+    },
+    "WRC Generations": {
+      "executable": "D:/WRC Generations-InsaneRamZes/WRCG.exe",
+      "description": "Путь к WRC.exe"
+    },
+    "Teardown": {
+      "executable": "",
+      "description": "Путь к Teardown.exe"
+    },
+    "Assetto Corsa EVO": {
+      "executable": "D:/System64/Users/tipor/Downloads/Assetto.Corsa.EVO-InsaneRamZes/AssettoCorsaEVO.exe",
+      "description": "Путь к acs.exe"
+    }
+  }
+}
