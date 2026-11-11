@@ -8,8 +8,129 @@ from PyQt6.QtWidgets import (
     QComboBox, QRadioButton, QButtonGroup, QScrollArea, QFrame,
     QListWidget, QListWidgetItem
 )
-from PyQt6.QtCore import Qt, QSize
-from PyQt6.QtGui import QFont, QColor, QLinearGradient
+from PyQt6.QtCore import Qt, QSize, QPropertyAnimation, QEasingCurve, pyqtProperty
+from PyQt6.QtGui import QFont, QColor, QLinearGradient, QPainter, QPainter
+
+
+class Localization:
+    """Localization system for multi-language support."""
+
+    def __init__(self):
+        self.current_language = "Russian"
+        self.translations = {
+            "English": {
+                "play": "PLAY",
+                "update": "UPDATE",
+                "up_to_date": "Up to Date",
+                "size": "Size",
+                "version": "Version",
+                "launching": "LAUNCHING...",
+                "settings": "Settings",
+                "language": "Language",
+                "window_mode": "Window Mode",
+                "window": "Window",
+                "fullscreen": "Fullscreen",
+                "save_close": "Save & Close",
+                "settings_saved": "Settings saved!",
+                "title": "PetterGriffinDev Launcher"
+            },
+            "Russian": {
+                "play": "ИГРАТЬ",
+                "update": "ОБНОВИТЬ",
+                "up_to_date": "Актуально",
+                "size": "Размер",
+                "version": "Версия",
+                "launching": "ЗАПУСК...",
+                "settings": "Настройки",
+                "language": "Язык",
+                "window_mode": "Режим окна",
+                "window": "Оконный",
+                "fullscreen": "Полный экран",
+                "save_close": "Сохранить и закрыть",
+                "settings_saved": "Настройки сохранены!",
+                "title": "PetterGriffinDev Launcher"
+            },
+            "Spanish": {
+                "play": "JUGAR",
+                "update": "ACTUALIZAR",
+                "up_to_date": "Actualizado",
+                "size": "Tamaño",
+                "version": "Versión",
+                "launching": "INICIANDO...",
+                "settings": "Configuración",
+                "language": "Idioma",
+                "window_mode": "Modo de ventana",
+                "window": "Ventana",
+                "fullscreen": "Pantalla completa",
+                "save_close": "Guardar y cerrar",
+                "settings_saved": "¡Configuración guardada!",
+                "title": "PetterGriffinDev Launcher"
+            }
+        }
+
+    def get(self, key):
+        return self.translations[self.current_language].get(key, key)
+
+    def set_language(self, language):
+        self.current_language = language
+
+
+class AnimatedButton(QPushButton):
+    """Button with simple hover scale animation."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self._scale = 1.0
+
+    def enterEvent(self, event):
+        """Smooth scale up on hover."""
+        self._animate_scale(1.05, 200)
+        super().enterEvent(event)
+
+    def leaveEvent(self, event):
+        """Smooth scale down on leave."""
+        self._animate_scale(1.0, 200)
+        super().leaveEvent(event)
+
+    def mousePressEvent(self, event):
+        """Smooth scale down on press."""
+        self._animate_scale(0.95, 100)
+        super().mousePressEvent(event)
+
+    def mouseReleaseEvent(self, event):
+        """Smooth scale up on release."""
+        if self.underMouse():
+            self._animate_scale(1.05, 200)
+        else:
+            self._animate_scale(1.0, 200)
+        super().mouseReleaseEvent(event)
+
+    def _animate_scale(self, target_scale, duration):
+        """Animate scale."""
+        self.anim = QPropertyAnimation(self, b"scale")
+        self.anim.setDuration(duration)
+        self.anim.setStartValue(self._scale)
+        self.anim.setEndValue(target_scale)
+        self.anim.setEasingCurve(QEasingCurve.Type.OutCubic)
+        self.anim.start()
+
+    def scale(self):
+        return self._scale
+
+    def setScale(self, value):
+        self._scale = value
+        self.update()
+
+    scale = pyqtProperty(float, scale, setScale)
+
+    def paintEvent(self, event):
+        """Override paint to apply scale transformation."""
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        painter.translate(self.width() / 2, self.height() / 2)
+        painter.scale(self._scale, self._scale)
+        painter.translate(-self.width() / 2, -self.height() / 2)
+        super().paintEvent(event)
 
 
 class SettingsDialog(QDialog):
@@ -136,9 +257,10 @@ class SettingsDialog(QDialog):
 class GameCard(QFrame):
     """Game display card with VITE GLASS style."""
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, localization=None):
         super().__init__(parent)
         self.game_data = None
+        self.localization = localization
         self.setup_ui()
 
     def setup_ui(self):
@@ -251,8 +373,8 @@ class GameCard(QFrame):
 
         layout.addSpacing(30)
 
-        # Play button
-        self.play_button = QPushButton()
+        # Play button with animation
+        self.play_button = AnimatedButton()
         self.play_button.setMinimumHeight(85)
         self.play_button.setMinimumWidth(300)
         self.play_button.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -285,8 +407,8 @@ class GameCard(QFrame):
 
         layout.addSpacing(20)
 
-        # Update button
-        self.update_button = QPushButton()
+        # Update button with animation
+        self.update_button = AnimatedButton()
         self.update_button.setMinimumHeight(50)
         self.update_button.setMinimumWidth(240)
         self.update_button.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -324,23 +446,34 @@ class GameCard(QFrame):
         if not icon.isNull():
             self.icon_label.setPixmap(icon.pixmap(130, 130))
 
-        # Update text
-        self.title_label.setText(game_data['title'])
-        self.size_label.setText(f"Размер: {game_data['size']}")
-        self.version_label.setText(f"Версия: {game_data['version']}")
+        # Update text with localization
+        if self.localization:
+            self.title_label.setText(game_data['title'])
+            self.size_label.setText(f"{self.localization.get('size')}: {game_data['size']}")
+            self.version_label.setText(f"{self.localization.get('version')}: {game_data['version']}")
+            self.update_status_label.setText(game_data['status'])
 
-        # Update status
-        self.update_status_label.setText(game_data['status'])
-
-        # Update button
-        self.play_button.setText(f"▶ ИГРАТЬ ▶")
+            # Update buttons with localization
+            self.play_button.setText(f"▶ {self.localization.get('play')} ▶")
+            self.update_button.setText(self.localization.get('update'))
+        else:
+            self.title_label.setText(game_data['title'])
+            self.size_label.setText(f"Размер: {game_data['size']}")
+            self.version_label.setText(f"Версия: {game_data['version']}")
+            self.update_status_label.setText(game_data['status'])
+            self.play_button.setText(f"▶ ИГРАТЬ ▶")
+            self.update_button.setText("ОБНОВИТЬ")
 
         # Show/hide update button
         if game_data['needs_update']:
-            self.update_button.setText("ОБНОВИТЬ")
             self.update_button.show()
         else:
             self.update_button.hide()
+
+    def update_language(self):
+        """Update all text when language changes."""
+        if self.game_data and self.localization:
+            self.set_game(self.game_data)
 
 
 class ModernLauncher(QMainWindow):
@@ -348,12 +481,13 @@ class ModernLauncher(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("PetterGriffinDev Launcher")
         self.setMinimumSize(1400, 900)
         self.resize(1600, 1000)
 
+        # Localization
+        self.localization = Localization()
+
         # Settings
-        self.current_language = "Russian"
         self.window_mode = "Window"
 
         # Game paths
@@ -490,6 +624,7 @@ class ModernLauncher(QMainWindow):
 
     def setup_ui(self):
         """Setup main UI with VITE GLASS style."""
+        self.setWindowTitle(self.localization.get('title'))
         # Central widget
         central = QWidget()
         central.setStyleSheet("""
@@ -538,13 +673,13 @@ class ModernLauncher(QMainWindow):
         layout.setContentsMargins(25, 0, 25, 0)
 
         # Title
-        title = QLabel("PetterGriffinDev Launcher")
+        title = QLabel(self.localization.get('title'))
         title.setStyleSheet("font-size: 24px; font-weight: 900; color: white;")
         layout.addWidget(title)
         layout.addStretch()
 
         # Language combo
-        lang_label = QLabel("Язык:")
+        lang_label = QLabel(f"{self.localization.get('language')}:")
         lang_label.setStyleSheet("color: rgba(255,255,255,200); font-size: 15px; font-weight: 700;")
         layout.addWidget(lang_label)
 
@@ -562,12 +697,13 @@ class ModernLauncher(QMainWindow):
             }
         """)
         self.lang_combo.addItems(["English", "Russian", "Spanish"])
-        self.lang_combo.setCurrentText(self.current_language)
+        self.lang_combo.setCurrentText(self.localization.current_language)
         self.lang_combo.currentTextChanged.connect(self.change_language)
         layout.addWidget(self.lang_combo)
 
         # Settings button
-        settings_btn = QPushButton("⚙ Настройки")
+        settings_btn = AnimatedButton()
+        settings_btn.setText(f"⚙ {self.localization.get('settings')}")
         settings_btn.setFixedSize(140, 45)
         settings_btn.setStyleSheet("""
             QPushButton {
@@ -588,6 +724,9 @@ class ModernLauncher(QMainWindow):
         """)
         settings_btn.clicked.connect(self.open_settings)
         layout.addWidget(settings_btn)
+
+        # Store reference for language updates
+        self.top_layout = layout
 
         parent_layout.addWidget(top_bar)
 
@@ -652,7 +791,7 @@ class ModernLauncher(QMainWindow):
         game_layout.setContentsMargins(35, 35, 35, 35)
         game_layout.setSpacing(25)
 
-        self.game_card = GameCard()
+        self.game_card = GameCard(localization=self.localization)
         self.game_card.setMinimumSize(600, 700)
         self.game_card.play_button.clicked.connect(self.launch_game)
         self.game_card.update_button.clicked.connect(self.update_game)
@@ -700,18 +839,38 @@ class ModernLauncher(QMainWindow):
             self.game_card.set_game(game_data)
 
     def change_language(self, language):
-        """Change language."""
-        self.current_language = language
+        """Change language and update all UI."""
+        self.localization.set_language(language)
+
+        # Update window title
+        self.setWindowTitle(self.localization.get('title'))
+
+        # Update top bar labels and buttons
+        for i in range(self.top_layout.count()):
+            item = self.top_layout.itemAt(i)
+            if item:
+                widget = item.widget()
+                if isinstance(widget, QLabel):
+                    current_text = widget.text()
+                    if ":" in current_text and ("Язык" in current_text or "Language" in current_text or "Idioma" in current_text):
+                        widget.setText(f"{self.localization.get('language')}:")
+                elif isinstance(widget, QPushButton):
+                    widget.setText(f"⚙ {self.localization.get('settings')}")
+
+        # FORCE update game card buttons
+        if self.game_card and self.game_card.game_data:
+            self.game_card.set_game(self.game_card.game_data)
+
         print(f"Language changed to: {language}")
 
     def open_settings(self):
         """Open settings dialog."""
-        dialog = SettingsDialog(self, self.current_language, self.window_mode)
+        dialog = SettingsDialog(self, self.localization.current_language, self.window_mode)
         result = dialog.exec()
 
         if result == QDialog.DialogCode.Accepted:
             settings = dialog.get_settings()
-            self.current_language = settings['language']
+            self.localization.set_language(settings['language'])
             self.window_mode = settings['mode']
 
             # Apply window mode
@@ -721,9 +880,12 @@ class ModernLauncher(QMainWindow):
                 self.showNormal()
 
             # Update language combo
-            self.lang_combo.setCurrentText(self.current_language)
+            self.lang_combo.setCurrentText(self.localization.current_language)
 
-            QMessageBox.information(self, "Настройки", "Настройки сохранены!")
+            # Update all UI text
+            self.change_language(self.localization.current_language)
+
+            QMessageBox.information(self, self.localization.get('launch_success'), self.localization.get('settings_saved'))
 
     def launch_game(self):
         """Launch the selected game."""
@@ -733,21 +895,21 @@ class ModernLauncher(QMainWindow):
         game_name = self.game_card.game_data['title']
         executable_path = self.game_paths.get(game_name, "")
 
-        self.game_card.play_button.setText("⏳ ЗАПУСК...")
+        self.game_card.play_button.setText(f"⏳ {self.localization.get('launching')}")
         self.game_card.play_button.setEnabled(False)
 
         if executable_path and os.path.exists(executable_path):
             try:
                 subprocess.Popen([executable_path], shell=True)
-                self.game_card.play_button.setText("▶ ИГРАТЬ ▶")
+                self.game_card.play_button.setText(f"▶ {self.localization.get('play')} ▶")
                 self.game_card.play_button.setEnabled(True)
-                QMessageBox.information(self, "Успешно", f"Игра '{game_name}' запущена!")
+                QMessageBox.information(self, self.localization.get('launch_success'), self.localization.get('launch_success_text').format(game_name))
             except Exception as e:
-                self.game_card.play_button.setText("▶ ИГРАТЬ ▶")
+                self.game_card.play_button.setText(f"▶ {self.localization.get('play')} ▶")
                 self.game_card.play_button.setEnabled(True)
-                QMessageBox.critical(self, "Ошибка", f"Не удалось запустить игру: {e}")
+                QMessageBox.critical(self, self.localization.get('launch_error'), self.localization.get('launch_error_text').format(e))
         else:
-            self.game_card.play_button.setText("▶ ИГРАТЬ ▶")
+            self.game_card.play_button.setText(f"▶ {self.localization.get('play')} ▶")
             self.game_card.play_button.setEnabled(True)
             self.ask_for_game_path(game_name)
 
