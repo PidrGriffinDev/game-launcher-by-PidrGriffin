@@ -1,56 +1,8 @@
 {
   "games": {
-    "WRC 10": {
-      "executable": "D:/SteamLibrary/steamapps/common/WRC 10 FIA World Rally Championship/WRC10.exe",
-      "description": "Путь к WRC10.exe"
-    },
-    "WRC 9": {
-      "executable": "D:/WRC 9 FIA World Rally Championship/WRC9.exe",
-      "description": "Путь к WRC9.exe"
-    },
     "Forza Horizon 6": {
       "executable": "D:/SteamLibrary/steamapps/common/ForzaHorizon6/forzahorizon6.exe",
-      "description": "Путь к Forza.exe"
-    },
-    "Dead Island 2": {
-      "executable": "D:/Dead Island 2/DeadIsland.exe",
-      "description": "Путь к DeadIsland2.exe"
-    },
-    "WRC Generations": {
-      "executable": "D:/WRC Generations-InsaneRamZes/WRCG.exe",
-      "description": "Путь к WRC.exe"
-    },
-    "Teardown": {
-      "executable": "",
-      "description": "Путь к Teardown.exe"
-    },
-    "Assetto Corsa EVO": {
-      "executable": "D:/System64/Users/tipor/Downloads/Assetto.Corsa.EVO-InsaneRamZes/AssettoCorsaEVO.exe",
-      "description": "Путь к acs.exe"
-    },
-    "Assetto Corsa Competizione": {
-      "executable": "",
-      "description": "Путь к acc.exe"
-    },
-    "Project Cars 3": {
-      "executable": "",
-      "description": "Путь к ProjectCars3.exe"
-    },
-    "Need For Speed Heat": {
-      "executable": "",
-      "description": "Путь к NFSHeat.exe"
-    },
-    "The Last Of Us Part 1 Remastered": {
-      "executable": "",
-      "description": "Путь к TLOU.exe"
-    },
-    "Watch Dogs 2": {
-      "executable": "",
-      "description": "Путь к WatchDogs2.exe"
-    },
-    "Bodycam": {
-      "executable": "",
-      "description": "Путь к Bodycam.exe"
+      "description": "Path to Forza Horizon 6"
     }
   }
 }
