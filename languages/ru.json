@@ -1,0 +1,19 @@
+{
+  "app_title": "PetterGriffinDev Launcher",
+  "play": "ИГРАТЬ",
+  "update": "ОБНОВИТЬ",
+  "up_to_date": "Актуально",
+  "game_size": "Размер",
+  "game_version": "Версия",
+  "settings": "Настройки",
+  "language": "Язык",
+  "english": "Английский",
+  "russian": "Русский",
+  "spanish": "Испанский",
+  "select_game": "Выберите игру",
+  "loading": "Загрузка...",
+  "games": "Игры",
+  "launching": "Запуск...",
+  "scan_games": "Сканирование игр",
+  "scan_complete": "Сканирование завершено"
+}

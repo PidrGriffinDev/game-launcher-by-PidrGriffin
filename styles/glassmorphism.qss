@@ -1,0 +1,248 @@
+/* Glassmorphism Base Styles */
+QWidget {
+    font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 14px;
+}
+
+/* Main Window */
+QMainWindow {
+    background-color: transparent;
+}
+
+/* Glass Card Effect */
+.GlassCard {
+    background-color: rgba(60, 60, 60, 150);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Sidebar */
+QListWidget#sidebar {
+    background-color: rgba(45, 45, 45, 200);
+    border: none;
+    border-radius: 0px;
+    padding: 10px;
+}
+
+QListWidget#sidebar::item {
+    background-color: transparent;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 4px 0px;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+QListWidget#sidebar::item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+QListWidget#sidebar::item:selected {
+    background-color: rgba(0, 122, 255, 0.3);
+    border: 1px solid rgba(0, 122, 255, 0.5);
+}
+
+QListWidget#sidebar::item:selected:hover {
+    background-color: rgba(0, 122, 255, 0.4);
+}
+
+/* Game Dashboard Card */
+QFrame#gameCard {
+    background-color: rgba(60, 60, 60, 150);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Play Button */
+QPushButton#playButton {
+    background-color: rgba(52, 199, 89, 220);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 16px 48px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+QPushButton#playButton:hover {
+    background-color: rgba(52, 199, 89, 255);
+}
+
+QPushButton#playButton:pressed {
+    background-color: rgba(52, 199, 89, 200);
+}
+
+QPushButton#playButton:disabled {
+    background-color: rgba(128, 128, 128, 150);
+    color: rgba(255, 255, 255, 150);
+}
+
+/* Update Button */
+QPushButton#updateButton {
+    background-color: rgba(0, 122, 255, 200);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+QPushButton#updateButton:hover {
+    background-color: rgba(0, 122, 255, 240);
+}
+
+QPushButton#updateButton:pressed {
+    background-color: rgba(0, 122, 255, 180);
+}
+
+/* Generic Glass Button */
+QPushButton {
+    background-color: rgba(0, 122, 255, 200);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+QPushButton:hover {
+    background-color: rgba(0, 122, 255, 240);
+}
+
+QPushButton:pressed {
+    background-color: rgba(0, 122, 255, 180);
+}
+
+/* Settings Button */
+QPushButton#settingsButton {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 8px 16px;
+    min-width: 40px;
+}
+
+QPushButton#settingsButton:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Labels */
+QLabel#gameTitle {
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+}
+
+QLabel#gameSize {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 180);
+}
+
+QLabel#gameVersion {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 180);
+}
+
+QLabel#updateStatus {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(52, 199, 89, 255);
+}
+
+QLabel#sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    padding: 8px 0px;
+}
+
+/* Language ComboBox */
+QComboBox {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 8px 12px;
+    color: white;
+    min-width: 120px;
+}
+
+QComboBox:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+QComboBox::drop-down {
+    border: none;
+}
+
+QComboBox::down-arrow {
+    image: none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white;
+}
+
+QComboBox QAbstractItemView {
+    background-color: rgba(45, 45, 45, 230);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    selection-background-color: rgba(0, 122, 255, 0.3);
+    color: white;
+    padding: 4px;
+}
+
+/* Scrollbar */
+QScrollBar:vertical {
+    background-color: transparent;
+    width: 8px;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    min-height: 20px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+QScrollBar:horizontal {
+    background-color: transparent;
+    height: 8px;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:horizontal {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    min-width: 20px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    width: 0px;
+}
+
+/* Status indicator */
+QLabel#statusIndicator {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 150);
+    padding: 4px 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
